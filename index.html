@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/Control.OSMGeocoder.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/Control.OSMGeocoder.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/60_min_isochrone_symbio_1.js"></script>
+        <script src="data/60_min_isochrone_ewen_maddock_2.js"></script>
+        <script src="data/60_min_isochrone_mt_crosby_3.js"></script>
+        <script src="data/60_min_isochrone_hinze_4.js"></script>
+        <script src="data/60_isochrone_north_pine_5.js"></script>
+        <script src="data/60_min_isochrone_capalaba_6.js"></script>
+        <script src="data/Hubs_coordinates_7.js"></script>
+        <script src="data/merged_alignment_coords_8.js"></script>
+        <script src="data/symbio_marker_9.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-28.4418847966,151.542669385],[-26.4522655966,154.47448218]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        L.control.locate().addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var overlay_GoogleHybridTerrain_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+            opacity: 1.0
+        });
+        overlay_GoogleHybridTerrain_0.addTo(map);
+        map.addLayer(overlay_GoogleHybridTerrain_0);
+        function pop_60_min_isochrone_symbio_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MINS'] !== null ? Autolinker.link(String(feature.properties['AA_MINS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MODE'] !== null ? Autolinker.link(String(feature.properties['AA_MODE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_60_min_isochrone_symbio_1_0() {
+            return {
+                pane: 'pane_60_min_isochrone_symbio_1',
+                opacity: 1,
+                color: 'rgba(2,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(150,150,150,0.4)',
+            }
+        }
+        map.createPane('pane_60_min_isochrone_symbio_1');
+        map.getPane('pane_60_min_isochrone_symbio_1').style.zIndex = 401;
+        map.getPane('pane_60_min_isochrone_symbio_1').style['mix-blend-mode'] = 'normal';
+        var layer_60_min_isochrone_symbio_1 = new L.geoJson(json_60_min_isochrone_symbio_1, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_60_min_isochrone_symbio_1',
+            onEachFeature: pop_60_min_isochrone_symbio_1,
+            style: style_60_min_isochrone_symbio_1_0,
+        });
+        bounds_group.addLayer(layer_60_min_isochrone_symbio_1);
+        map.addLayer(layer_60_min_isochrone_symbio_1);
+        function pop_60_min_isochrone_ewen_maddock_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MINS'] !== null ? Autolinker.link(String(feature.properties['AA_MINS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MODE'] !== null ? Autolinker.link(String(feature.properties['AA_MODE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_60_min_isochrone_ewen_maddock_2_0() {
+            return {
+                pane: 'pane_60_min_isochrone_ewen_maddock_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(246,250,10,0.4)',
+            }
+        }
+        map.createPane('pane_60_min_isochrone_ewen_maddock_2');
+        map.getPane('pane_60_min_isochrone_ewen_maddock_2').style.zIndex = 402;
+        map.getPane('pane_60_min_isochrone_ewen_maddock_2').style['mix-blend-mode'] = 'normal';
+        var layer_60_min_isochrone_ewen_maddock_2 = new L.geoJson(json_60_min_isochrone_ewen_maddock_2, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_60_min_isochrone_ewen_maddock_2',
+            onEachFeature: pop_60_min_isochrone_ewen_maddock_2,
+            style: style_60_min_isochrone_ewen_maddock_2_0,
+        });
+        bounds_group.addLayer(layer_60_min_isochrone_ewen_maddock_2);
+        map.addLayer(layer_60_min_isochrone_ewen_maddock_2);
+        function pop_60_min_isochrone_mt_crosby_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MINS'] !== null ? Autolinker.link(String(feature.properties['AA_MINS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MODE'] !== null ? Autolinker.link(String(feature.properties['AA_MODE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_60_min_isochrone_mt_crosby_3_0() {
+            return {
+                pane: 'pane_60_min_isochrone_mt_crosby_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,12,20,0.4)',
+            }
+        }
+        map.createPane('pane_60_min_isochrone_mt_crosby_3');
+        map.getPane('pane_60_min_isochrone_mt_crosby_3').style.zIndex = 403;
+        map.getPane('pane_60_min_isochrone_mt_crosby_3').style['mix-blend-mode'] = 'normal';
+        var layer_60_min_isochrone_mt_crosby_3 = new L.geoJson(json_60_min_isochrone_mt_crosby_3, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_60_min_isochrone_mt_crosby_3',
+            onEachFeature: pop_60_min_isochrone_mt_crosby_3,
+            style: style_60_min_isochrone_mt_crosby_3_0,
+        });
+        bounds_group.addLayer(layer_60_min_isochrone_mt_crosby_3);
+        map.addLayer(layer_60_min_isochrone_mt_crosby_3);
+        function pop_60_min_isochrone_hinze_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MINS'] !== null ? Autolinker.link(String(feature.properties['AA_MINS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MODE'] !== null ? Autolinker.link(String(feature.properties['AA_MODE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_60_min_isochrone_hinze_4_0() {
+            return {
+                pane: 'pane_60_min_isochrone_hinze_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(210,61,207,0.4)',
+            }
+        }
+        map.createPane('pane_60_min_isochrone_hinze_4');
+        map.getPane('pane_60_min_isochrone_hinze_4').style.zIndex = 404;
+        map.getPane('pane_60_min_isochrone_hinze_4').style['mix-blend-mode'] = 'normal';
+        var layer_60_min_isochrone_hinze_4 = new L.geoJson(json_60_min_isochrone_hinze_4, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_60_min_isochrone_hinze_4',
+            onEachFeature: pop_60_min_isochrone_hinze_4,
+            style: style_60_min_isochrone_hinze_4_0,
+        });
+        bounds_group.addLayer(layer_60_min_isochrone_hinze_4);
+        map.addLayer(layer_60_min_isochrone_hinze_4);
+        function pop_60_isochrone_north_pine_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MINS'] !== null ? Autolinker.link(String(feature.properties['AA_MINS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MODE'] !== null ? Autolinker.link(String(feature.properties['AA_MODE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_60_isochrone_north_pine_5_0() {
+            return {
+                pane: 'pane_60_isochrone_north_pine_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(10,250,230,0.4)',
+            }
+        }
+        map.createPane('pane_60_isochrone_north_pine_5');
+        map.getPane('pane_60_isochrone_north_pine_5').style.zIndex = 405;
+        map.getPane('pane_60_isochrone_north_pine_5').style['mix-blend-mode'] = 'normal';
+        var layer_60_isochrone_north_pine_5 = new L.geoJson(json_60_isochrone_north_pine_5, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_60_isochrone_north_pine_5',
+            onEachFeature: pop_60_isochrone_north_pine_5,
+            style: style_60_isochrone_north_pine_5_0,
+        });
+        bounds_group.addLayer(layer_60_isochrone_north_pine_5);
+        map.addLayer(layer_60_isochrone_north_pine_5);
+        function pop_60_min_isochrone_capalaba_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MINS'] !== null ? Autolinker.link(String(feature.properties['AA_MINS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AA_MODE'] !== null ? Autolinker.link(String(feature.properties['AA_MODE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_60_min_isochrone_capalaba_6_0() {
+            return {
+                pane: 'pane_60_min_isochrone_capalaba_6',
+                opacity: 1,
+                color: 'rgba(41,41,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(77,175,74,0.4)',
+            }
+        }
+        map.createPane('pane_60_min_isochrone_capalaba_6');
+        map.getPane('pane_60_min_isochrone_capalaba_6').style.zIndex = 406;
+        map.getPane('pane_60_min_isochrone_capalaba_6').style['mix-blend-mode'] = 'normal';
+        var layer_60_min_isochrone_capalaba_6 = new L.geoJson(json_60_min_isochrone_capalaba_6, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_60_min_isochrone_capalaba_6',
+            onEachFeature: pop_60_min_isochrone_capalaba_6,
+            style: style_60_min_isochrone_capalaba_6_0,
+        });
+        bounds_group.addLayer(layer_60_min_isochrone_capalaba_6);
+        map.addLayer(layer_60_min_isochrone_capalaba_6);
+        function pop_Hubs_coordinates_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Hub</th>\
+                        <td>' + (feature.properties['Hub'] !== null ? Autolinker.link(String(feature.properties['Hub'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lon'] !== null ? Autolinker.link(String(feature.properties['Lon'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? Autolinker.link(String(feature.properties['Lat'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Hubs_coordinates_7_0(feature) {
+            switch(String(feature.properties['Hub'])) {
+                case 'Capalaba Water Treatment Plant':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(89,207,21,1.0)',
+            }
+                    break;
+                case 'Ewen Maddock Dam Water Treatment Plant':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(246,250,10,1.0)',
+            }
+                    break;
+                case 'Hinze Dam':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(92,222,155,1.0)',
+            }
+                    break;
+                case 'Icon':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(97,67,203,1.0)',
+            }
+                    break;
+                case 'Mt. Crosby Water Treatment Plant':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,12,20,1.0)',
+            }
+                    break;
+                case 'North Pine Dam':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(184,8,8,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(10,250,230,1.0)',
+            }
+                    break;
+            }
+        }
+        function style_Hubs_coordinates_7_1(feature) {
+            switch(String(feature.properties['Hub'])) {
+                case 'Capalaba Water Treatment Plant':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(89,207,21,1.0)',
+            }
+                    break;
+                case 'Ewen Maddock Dam Water Treatment Plant':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(246,250,10,1.0)',
+            }
+                    break;
+                case 'Hinze Dam':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(92,222,155,1.0)',
+            }
+                    break;
+                case 'Icon':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(97,67,203,1.0)',
+            }
+                    break;
+                case 'Mt. Crosby Water Treatment Plant':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,12,20,1.0)',
+            }
+                    break;
+                case 'North Pine Dam':
+                    return {
+                pane: 'pane_Hubs_coordinates_7',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(255,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(10,250,230,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Hubs_coordinates_7');
+        map.getPane('pane_Hubs_coordinates_7').style.zIndex = 407;
+        map.getPane('pane_Hubs_coordinates_7').style['mix-blend-mode'] = 'normal';
+        var layer_Hubs_coordinates_7 = new L.geoJson.multiStyle(json_Hubs_coordinates_7, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_Hubs_coordinates_7',
+            onEachFeature: pop_Hubs_coordinates_7,
+            pointToLayers: [function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Hubs_coordinates_7_0(feature));
+            },function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_Hubs_coordinates_7_1(feature));
+            },
+        ]});
+        bounds_group.addLayer(layer_Hubs_coordinates_7);
+        map.addLayer(layer_Hubs_coordinates_7);
+        function pop_merged_alignment_coords_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['delivery_hub'] !== null ? Autolinker.link(String(feature.properties['delivery_hub'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['route'] !== null ? Autolinker.link(String(feature.properties['route'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['sample_point1'] !== null ? Autolinker.link(String(feature.properties['sample_point1'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Sample_point2'] !== null ? Autolinker.link(String(feature.properties['Sample_point2'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['program'] !== null ? Autolinker.link(String(feature.properties['program'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['coc_hierachy'] !== null ? Autolinker.link(String(feature.properties['coc_hierachy'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['source_ref'] !== null ? Autolinker.link(String(feature.properties['source_ref'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['sampling_team'] !== null ? Autolinker.link(String(feature.properties['sampling_team'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['sample_day'] !== null ? Autolinker.link(String(feature.properties['sample_day'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['seq_program'] !== null ? Autolinker.link(String(feature.properties['seq_program'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['longitude'] !== null ? Autolinker.link(String(feature.properties['longitude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['latitude'] !== null ? Autolinker.link(String(feature.properties['latitude'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['sequence_within_route'] !== null ? Autolinker.link(String(feature.properties['sequence_within_route'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['traveltime_fromprev'] !== null ? Autolinker.link(String(feature.properties['traveltime_fromprev'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_merged_alignment_coords_8_0(feature) {
+            switch(String(feature.properties['program'])) {
+                case 'CAT':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(10,250,230,1.0)',
+            }
+                    break;
+                case 'CAT-E':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,134,224,1.0)',
+            }
+                    break;
+                case 'ENV ':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(246,250,10,1.0)',
+            }
+                    break;
+                case 'HBT':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,67,117,1.0)',
+            }
+                    break;
+                case 'IFP':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(61,72,215,1.0)',
+            }
+                    break;
+                case 'SYS':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(16,232,40,1.0)',
+            }
+                    break;
+                case 'WTP':
+                    return {
+                pane: 'pane_merged_alignment_coords_8',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,12,20,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_merged_alignment_coords_8');
+        map.getPane('pane_merged_alignment_coords_8').style.zIndex = 408;
+        map.getPane('pane_merged_alignment_coords_8').style['mix-blend-mode'] = 'normal';
+        var layer_merged_alignment_coords_8 = new L.geoJson(json_merged_alignment_coords_8, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_merged_alignment_coords_8',
+            onEachFeature: pop_merged_alignment_coords_8,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_merged_alignment_coords_8_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_merged_alignment_coords_8);
+        map.addLayer(layer_merged_alignment_coords_8);
+        function pop_symbio_marker_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Testing Lab'] !== null ? Autolinker.link(String(feature.properties['Testing Lab'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Postcode'] !== null ? Autolinker.link(String(feature.properties['Postcode'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? Autolinker.link(String(feature.properties['Lat'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? Autolinker.link(String(feature.properties['Long'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_symbio_marker_9_0() {
+            return {
+                pane: 'pane_symbio_marker_9',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(2,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(2,0,0,1.0)',
+            }
+        }
+        map.createPane('pane_symbio_marker_9');
+        map.getPane('pane_symbio_marker_9').style.zIndex = 409;
+        map.getPane('pane_symbio_marker_9').style['mix-blend-mode'] = 'normal';
+        var layer_symbio_marker_9 = new L.geoJson(json_symbio_marker_9, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_symbio_marker_9',
+            onEachFeature: pop_symbio_marker_9,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_symbio_marker_9_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_symbio_marker_9);
+        map.addLayer(layer_symbio_marker_9);
+        var osmGeocoder = new L.Control.OSMGeocoder({
+            collapsed: false,
+            position: 'topright',
+            text: 'Search',
+        });
+        osmGeocoder.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/symbio_marker_9.png" /> symbio_marker': layer_symbio_marker_9,'merged_alignment_coords<br /><table><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_CAT0.png" /></td><td>CAT</td></tr><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_CATE1.png" /></td><td>CAT-E</td></tr><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_ENV2.png" /></td><td>ENV </td></tr><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_HBT3.png" /></td><td>HBT</td></tr><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_IFP4.png" /></td><td>IFP</td></tr><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_SYS5.png" /></td><td>SYS</td></tr><tr><td style="text-align: center;"><img src="legend/merged_alignment_coords_8_WTP6.png" /></td><td>WTP</td></tr></table>': layer_merged_alignment_coords_8,'Hubs_coordinates<br /><table><tr><td style="text-align: center;"><img src="legend/Hubs_coordinates_7_CapalabaWaterTreatmentPlant0.png" /></td><td>Capalaba Water Treatment Plant</td></tr><tr><td style="text-align: center;"><img src="legend/Hubs_coordinates_7_EwenMaddockDamWaterTreatmentPlant1.png" /></td><td>Ewen Maddock Dam Water Treatment Plant</td></tr><tr><td style="text-align: center;"><img src="legend/Hubs_coordinates_7_HinzeDam2.png" /></td><td>Hinze Dam</td></tr><tr><td style="text-align: center;"><img src="legend/Hubs_coordinates_7_Icon3.png" /></td><td>Icon</td></tr><tr><td style="text-align: center;"><img src="legend/Hubs_coordinates_7_MtCrosbyWaterTreatmentPlant4.png" /></td><td>Mt. Crosby Water Treatment Plant</td></tr><tr><td style="text-align: center;"><img src="legend/Hubs_coordinates_7_NorthPineDam5.png" /></td><td>North Pine Dam</td></tr></table>': layer_Hubs_coordinates_7,'<img src="legend/60_min_isochrone_capalaba_6.png" /> 60_min_isochrone_capalaba': layer_60_min_isochrone_capalaba_6,'<img src="legend/60_isochrone_north_pine_5.png" /> 60_isochrone_north_pine': layer_60_isochrone_north_pine_5,'<img src="legend/60_min_isochrone_hinze_4.png" /> 60_min_isochrone_hinze': layer_60_min_isochrone_hinze_4,'<img src="legend/60_min_isochrone_mt_crosby_3.png" /> 60_min_isochrone_mt_crosby': layer_60_min_isochrone_mt_crosby_3,'<img src="legend/60_min_isochrone_ewen_maddock_2.png" /> 60_min_isochrone_ewen_maddock': layer_60_min_isochrone_ewen_maddock_2,'<img src="legend/60_min_isochrone_symbio_1.png" /> 60_min_isochrone_symbio': layer_60_min_isochrone_symbio_1,"Google Hybrid Terrain": overlay_GoogleHybridTerrain_0,}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_merged_alignment_coords_8,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'sample_point1'}));
+        </script>
+    </body>
+</html>
